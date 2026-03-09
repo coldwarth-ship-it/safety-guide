@@ -3,442 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rider Comprehensive Safety 2025: ศูนย์รวมคู่มือความปลอดภัย</title>
+    <title>Rider Comprehensive Safety 2026</title>
     
+    <!-- นำเข้า Tailwind CSS และ Chart.js -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Kanit', 'sans-serif'] },
-                    colors: {
-                        brand: {
-                            orange: '#F97316',
-                            red: '#EF4444',
-                            navy: '#0F172A',
-                            yellow: '#FACC15',
-                            emerald: '#10B981',
-                            purple: '#A855F7',
-                            rose: '#F43F5E'
-                        },
-                        slate: { 800: '#1E293B', 900: '#0F172A' },
-                        emerald: { 400: '#34D399', 500: '#10B981' },
-                        amber: { 400: '#FBBF24', 500: '#F59E0B' },
-                        red: { 500: '#EF4444', 600: '#DC2626' }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         body { background-color: #0F172A; color: #F8FAFC; scroll-behavior: smooth; }
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 450px;
+            height: 300px;
         }
         @media (min-width: 768px) {
-            .chart-container.dog-chart { height: 350px; max-width: 600px;}
+            .chart-container { height: 350px; }
         }
         .glass-card {
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(30, 41, 59, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
         }
-        .nav-link { transition: all 0.3s ease; flex-shrink: 0; }
+        .info-number {
+            font-size: 8rem;
+            line-height: 1;
+            font-weight: 900;
+            opacity: 0.1;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            z-index: 0;
+        }
+        .content-relative { position: relative; z-index: 10; }
+        
+        /* Sticky Navigation Bar (ตามรูปภาพอ้างอิง) */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: #0B1120; 
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .nav-link { transition: color 0.3s ease; white-space: nowrap; font-size: 0.9rem; font-weight: 600;}
         .nav-link:hover { color: #F97316; }
-        section { scroll-margin-top: 120px; }
-        
-        .tab-btn { transition: all 0.3s ease; }
-        .tab-btn.active { background-color: #F97316; color: white; box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.4); }
-        .tab-btn.inactive { background-color: rgba(30, 41, 59, 0.8); color: #94A3B8; }
-        .tab-btn.inactive:hover { background-color: rgba(51, 65, 85, 0.8); color: white; }
-        
-        /* ซ่อน Scrollbar สำหรับเมนูแนวนอน */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* ป้องกันเมนูลอยบังเนื้อหาเวลาเลื่อนในหน้าย่อย */
+        section { scroll-margin-top: 140px; }
+        
+        /* ปุ่ม Tab */
+        .tab-btn { cursor: pointer; transition: all 0.3s ease; }
     </style>
 </head>
 <body class="antialiased font-sans">
 
-    <div class="fixed top-0 left-0 w-full z-[60] bg-slate-900 border-b border-white/10 pt-2 pb-2 shadow-lg">
-        <div class="max-w-6xl mx-auto px-4 flex justify-center space-x-2 md:space-x-4">
-            <button onclick="switchPage('page-rider')" id="tab-page-rider" class="tab-btn active flex items-center px-4 py-2 rounded-full text-xs md:text-sm font-bold">
-                <span class="text-lg mr-2">🛵</span> 7 ปัจจัยเสี่ยง
+    <!-- Navigation Header (ดีไซน์ใหม่ตามรูปอ้างอิงแบบ 2 ชั้น) -->
+    <nav class="sticky-nav shadow-lg">
+        <!-- ชั้นที่ 1: เมนูหัวข้อหลัก (Main Tabs) -->
+        <div class="flex justify-center space-x-3 pt-4 pb-3 border-b border-white/5 px-4 overflow-x-auto hide-scrollbar">
+            <button onclick="switchPage('page-rider')" id="tab-page-rider" class="tab-btn flex items-center px-6 py-2.5 rounded-full text-sm font-bold bg-[#F97316] text-white shadow-[0_0_15px_rgba(249,115,22,0.4)] flex-shrink-0">
+                <span class="mr-2 text-lg">🛵</span> 7 ปัจจัยเสี่ยง
             </button>
-            <button onclick="switchPage('page-dog')" id="tab-page-dog" class="tab-btn inactive flex items-center px-4 py-2 rounded-full text-xs md:text-sm font-bold">
-                <span class="text-lg mr-2">🐕</span> รับมือสุนัขวิ่งไล่
+            <button onclick="switchPage('page-seasons')" id="tab-page-seasons" class="tab-btn flex items-center px-6 py-2.5 rounded-full text-sm font-bold bg-[#1E293B] text-slate-300 hover:bg-[#334155] hover:text-white flex-shrink-0">
+                <span class="mr-2 text-lg">🌤️</span> ภัย 3 ฤดูกาล
             </button>
+            <button onclick="switchPage('page-dog')" id="tab-page-dog" class="tab-btn flex items-center px-6 py-2.5 rounded-full text-sm font-bold bg-[#1E293B] text-slate-300 hover:bg-[#334155] hover:text-white flex-shrink-0">
+                <span class="mr-2 text-lg">🐕</span> รับมือสุนัขวิ่งไล่
+            </button>
+        </div>
+        
+        <!-- ชั้นที่ 2: เมนูย่อย (Sub-sections) จะแสดงเฉพาะหน้า 7 ปัจจัยเสี่ยง -->
+        <div id="sub-nav-rider" class="max-w-6xl mx-auto px-4 flex justify-start md:justify-center space-x-6 md:space-x-8 overflow-x-auto hide-scrollbar py-3.5 transition-all">
+            <a href="#speed" class="nav-link text-white">1. ความเร็ว</a>
+            <a href="#lane" class="nav-link text-white">2. เปลี่ยนเลน</a>
+            <a href="#phone" class="nav-link text-white">3. โทรศัพท์</a>
+            <a href="#fatigue" class="nav-link text-white">4. พักผ่อน</a>
+            <a href="#external" class="nav-link text-white">5. ภายนอก</a>
+            <a href="#helmet" class="nav-link text-[#A855F7]">6. หมวกกันน็อก</a>
+            <a href="#drunk" class="nav-link text-[#EF4444]">7. เมาแล้วขับ</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section (แบนเนอร์กลาง แสดงทุกหน้า) -->
+    <div class="relative pt-12 pb-12 overflow-hidden border-b border-gray-800">
+        <div class="absolute inset-0 z-0 opacity-20" style="background-image: radial-gradient(#F97316 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="inline-block bg-[#F97316] text-white px-4 py-1 rounded-full text-xs font-bold mb-4 tracking-widest uppercase">The Ultimate Survival Guide</div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight">
+                RIDER SAFETY <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#FF2E63]">2026</span>
+            </h1>
         </div>
     </div>
 
-    <div id="page-rider" class="page-section pt-16 block">
-        
-        <nav class="sticky top-[52px] z-50 bg-brand-navy/90 border-b border-white/10 backdrop-blur-md">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-14">
-                    <span class="text-brand-orange font-bold text-sm md:text-lg hidden md:block mr-6 flex-shrink-0">SAFETY 2025</span>
-                    <div class="flex space-x-4 md:space-x-6 text-[11px] md:text-sm overflow-x-auto hide-scrollbar pb-1 md:pb-0 w-full justify-start md:justify-end">
-                        <a href="#speed" class="nav-link whitespace-nowrap">1. ความเร็ว</a>
-                        <a href="#lane" class="nav-link whitespace-nowrap">2. เปลี่ยนเลน</a>
-                        <a href="#phone" class="nav-link whitespace-nowrap">3. โทรศัพท์</a>
-                        <a href="#fatigue" class="nav-link whitespace-nowrap">4. พักผ่อน</a>
-                        <a href="#external" class="nav-link whitespace-nowrap">5. ภายนอก</a>
-                        <a href="#helmet" class="nav-link whitespace-nowrap text-brand-purple">6. หมวกกันน็อก</a>
-                        <a href="#drunk" class="nav-link whitespace-nowrap text-brand-rose">7. เมาแล้วขับ</a>
+    <!-- ========================================== -->
+    <!-- PAGE 1: 7 RISK FACTORS                  -->
+    <!-- ========================================== -->
+    <div id="page-rider" class="page-section block pt-10 pb-10">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-[#F97316] tracking-widest uppercase mb-2">CHAPTER 01</h2>
+                <h3 class="text-3xl font-extrabold text-white">7 ปัจจัยเสี่ยงบนท้องถนน</h3>
+            </div>
+
+            <div class="space-y-12">
+                <!-- 1. Speed -->
+                <section id="speed" class="glass-card rounded-3xl p-8 relative overflow-hidden border-l-4 border-[#EF4444]">
+                    <div class="info-number text-[#EF4444]">01</div>
+                    <div class="content-relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4">ความเร็วในเขตชุมชน</h3>
+                            <p class="text-slate-300 mb-6">ความเร็วที่เพิ่มขึ้นเพียงนิดเดียวในซอยแคบ ทำให้ระยะเบรกเพิ่มขึ้นเป็นทวีคูณ เป็นสาเหตุการบาดเจ็บรุนแรงอันดับ 1</p>
+                            <div class="bg-[#EF4444]/10 p-4 rounded-xl border border-[#EF4444]/30">
+                                <h4 class="text-[#EF4444] font-bold mb-2">💡 ทางรอด:</h4>
+                                <ul class="text-sm text-slate-300 space-y-1">
+                                    <li>• ใช้ความเร็วไม่เกิน 30-40 กม./ชม.</li>
+                                    <li>• แตะเบรกเผื่อไว้เสมอเมื่อเห็นทางแยก</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="chart-container"><canvas id="speedChart"></canvas></div>
+                    </div>
+                </section>
+
+                <!-- 2. Lane -->
+                <section id="lane" class="glass-card rounded-3xl p-8 relative overflow-hidden border-r-4 border-[#FACC15]">
+                    <div class="info-number text-[#FACC15] right-0 left-auto text-right">02</div>
+                    <div class="content-relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 lg:order-1 chart-container"><canvas id="laneChart"></canvas></div>
+                        <div class="order-1 lg:order-2">
+                            <h3 class="text-3xl font-bold mb-4">เปลี่ยนเลนกะทันหัน</h3>
+                            <p class="text-slate-300 mb-6">"เลี้ยวโดยไม่ให้สัญญาณ" หรือ "เปลี่ยนเลนแทรก" คือต้นเหตุของอุบัติเหตุเฉี่ยวชนด้านข้างที่เกิดบ่อยที่สุด</p>
+                            <div class="bg-[#FACC15]/10 p-4 rounded-xl border border-[#FACC15]/30">
+                                <h4 class="text-[#FACC15] font-bold mb-2">💡 ทางรอด:</h4>
+                                <ul class="text-sm text-slate-300 space-y-1">
+                                    <li>• เปิดไฟเลี้ยวก่อน 30 เมตรเสมอ</li>
+                                    <li>• หันมองจุดบอด (Shoulder Check) ก่อนเบี่ยงรถ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Phone -->
+                <section id="phone" class="glass-card rounded-3xl p-8 relative overflow-hidden border-l-4 border-[#F97316]">
+                    <div class="info-number text-[#F97316]">03</div>
+                    <div class="content-relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4">ละสายตาดูแผนที่</h3>
+                            <p class="text-slate-300 mb-6">การละสายตาเพียง 2 วินาทีที่ความเร็ว 60 กม./ชม. เท่ากับการขับรถหลับตาไปไกลถึง 33 เมตร</p>
+                            <div class="bg-[#F97316]/10 p-4 rounded-xl border border-[#F97316]/30">
+                                <h4 class="text-[#F97316] font-bold mb-2">💡 ทางรอด:</h4>
+                                <ul class="text-sm text-slate-300 space-y-1">
+                                    <li>• ฟังเสียงนำทางผ่านหูฟัง Bluetooth</li>
+                                    <li>• จอดรถชิดซ้ายให้ปลอดภัยก่อนกดรับงานใหม่</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="chart-container"><canvas id="phoneChart"></canvas></div>
+                    </div>
+                </section>
+
+                <!-- 4. Fatigue & 5. External -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <section id="fatigue" class="glass-card rounded-3xl p-8 border-t-4 border-slate-500">
+                        <h3 class="text-2xl font-bold mb-4">💤 04: อดนอน/หลับใน</h3>
+                        <div class="chart-container h-48 mb-4"><canvas id="fatigueChart"></canvas></div>
+                        <p class="text-sm text-slate-400">ขี่รถติดต่อกันเกิน 10 ชม. เสี่ยงอุบัติเหตุเพิ่ม 3 เท่า ต้องจัด Power Nap 15 นาทีช่วงบ่าย</p>
+                    </section>
+                    <section id="external" class="glass-card rounded-3xl p-8 border-t-4 border-blue-500">
+                        <h3 class="text-2xl font-bold mb-4">🚧 05: ปัจจัยภายนอก</h3>
+                        <div class="chart-container h-48 mb-4"><canvas id="externalChart"></canvas></div>
+                        <p class="text-sm text-slate-400">ระวังกรวด ทราย น้ำมันบนพื้นถนน และใช้ทักษะ Defensive Riding คาดการณ์รถคันอื่นเสมอ</p>
+                    </section>
+                </div>
+
+                <!-- 6. Helmet -->
+                <section id="helmet" class="glass-card rounded-3xl p-8 relative overflow-hidden border-l-4 border-[#A855F7]">
+                    <div class="info-number text-[#A855F7]">06</div>
+                    <div class="content-relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-4">ไม่สวมหมวกกันน็อก</h3>
+                            <p class="text-slate-300 mb-6">ล้มที่ความเร็วแค่ 30 กม./ชม. ก็สมองกระทบกระเทือนได้ หมวกกันน็อกเต็มใบช่วยชีวิตได้ถึง 72%</p>
+                        </div>
+                        <div class="chart-container"><canvas id="helmetChart"></canvas></div>
+                    </div>
+                </section>
+
+                <!-- 7. Drunk -->
+                <section id="drunk" class="glass-card rounded-3xl p-8 relative overflow-hidden border-r-4 border-[#F43F5E]">
+                    <div class="info-number text-[#F43F5E] right-0 left-auto text-right">07</div>
+                    <div class="content-relative grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 lg:order-1 chart-container"><canvas id="drunkChart"></canvas></div>
+                        <div class="order-1 lg:order-2">
+                            <h3 class="text-3xl font-bold mb-4">แอลกอฮอล์ตกค้าง</h3>
+                            <p class="text-slate-300 mb-6">เบียร์แค่ 1-2 กระป๋อง ก็ทำให้มุมมองสายตาแคบลง (Tunnel Vision) และประเมินความเสี่ยงพลาดอย่างรุนแรง</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PAGE 2: 3 SEASONS HAZARDS                  -->
+    <!-- ========================================== -->
+    <div id="page-seasons" class="page-section hidden pt-10 pb-10">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-[#08D9D6] tracking-widest uppercase mb-2">CHAPTER 02</h2>
+                <h3 class="text-3xl font-extrabold text-white">มหันตภัย 3 ฤดูกาล</h3>
+                <p class="text-gray-400 mt-2 max-w-2xl mx-auto">สถิติโรคระบาดและอุบัติเหตุที่แปรผันตามสภาพอากาศ</p>
+            </div>
+
+            <!-- Season Charts -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="glass-card p-6 rounded-3xl shadow-xl">
+                    <h4 class="text-center font-bold text-[#FF2E63] mb-4">โรคระบาดตามฤดูกาล</h4>
+                    <div class="chart-container"><canvas id="diseaseBarChart"></canvas></div>
+                </div>
+                <div class="glass-card p-6 rounded-3xl shadow-xl">
+                    <h4 class="text-center font-bold text-[#08D9D6] mb-4">ปัจจัยเสี่ยง 2 ล้อ</h4>
+                    <div class="chart-container"><canvas id="accidentRadarChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Deep Dive Seasons -->
+            <div class="space-y-8">
+                <!-- SUMMER -->
+                <div class="bg-gradient-to-br from-slate-800 to-[#FF2E63]/10 rounded-3xl p-8 border border-[#FF2E63]/20 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/3 text-center">
+                        <div class="text-8xl mb-2">☀️</div>
+                        <h3 class="text-4xl font-black text-[#FF2E63] tracking-wider">SUMMER</h3>
+                        <p class="text-[#F59E0B] font-bold mt-2">HIGH RISK: HEAT STROKE</p>
+                    </div>
+                    <div class="md:w-2/3">
+                        <h4 class="text-xl font-bold text-white mb-2">สัญญาณอันตราย (ฮีทสโตรก)</h4>
+                        <p class="text-gray-300 text-sm mb-4">มึนงง ปวดหัว ตัวร้อนจัดแต่ <strong class="text-[#FF2E63]">ไม่มีเหงื่อ</strong> ตะคริวตามแขนขา</p>
+                        <h4 class="text-xl font-bold text-white mb-2">การเตรียมรถ & คน</h4>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• ห้ามเติมลมยางแข็งเกินไป เสี่ยงระเบิดเมื่อถนนร้อน</li>
+                            <li>• เช็คระบบหล่อเย็น (Coolant) ให้เต็มระบบ</li>
+                            <li>• ดื่มน้ำทุก 20 นาที และถอดหมวกพักในที่ร่มทุกๆ 1 ชั่วโมง</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RAINY -->
+                <div class="bg-gradient-to-br from-slate-800 to-[#08D9D6]/10 rounded-3xl p-8 border border-[#08D9D6]/20 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/3 text-center md:order-2">
+                        <div class="text-8xl mb-2">🌧️</div>
+                        <h3 class="text-4xl font-black text-[#08D9D6] tracking-wider">RAINY</h3>
+                        <p class="text-gray-300 font-bold mt-2">SLIPPERY & HYDROPLANING</p>
+                    </div>
+                    <div class="md:w-2/3 md:order-1">
+                        <h4 class="text-xl font-bold text-white mb-2">เทคนิคเอาตัวรอด</h4>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• เลี่ยงขี่ทับเส้นขาว ฝาท่อ และคราบน้ำมันสีรุ้ง</li>
+                            <li>• ใช้เบรกหลังช่วยมากกว่าปกติ เลี่ยงการกำเบรกหน้ากะทันหัน</li>
+                            <li>• ดอกยางต้องลึกพอ เพื่อป้องกันอาการ "เหินน้ำ"</li>
+                            <li>• เพิ่มระยะเบรกจากรถคันหน้าอย่างน้อย 3 เท่า</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- WINTER -->
+                <div class="bg-gradient-to-br from-slate-800 to-gray-600/20 rounded-3xl p-8 border border-gray-600 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/3 text-center">
+                        <div class="text-8xl mb-2">❄️</div>
+                        <h3 class="text-4xl font-black text-white tracking-wider">WINTER</h3>
+                        <p class="text-gray-400 font-bold mt-2">LOW VISIBILITY</p>
+                    </div>
+                    <div class="md:w-2/3">
+                        <h4 class="text-xl font-bold text-white mb-2">สิ่งที่ต้องระวังพิเศษ</h4>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• <strong>หมอกลงจัด:</strong> เปิดไฟหน้าต่ำเสมอ (ห้ามเปิดไฟฉุกเฉินวิ่ง)</li>
+                            <li>• <strong>ปฏิกิริยาช้าลง:</strong> ความหนาวทำให้กล้ามเนื้อตึง ควรใส่ถุงมือกันลม</li>
+                            <li>• <strong>หลับใน:</strong> อากาศเย็น+ทางยาว เป็นตัวเร่งชั้นดีในการวูบหลับ</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </nav>
-
-        <div class="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-            <header class="text-center mb-16">
-                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">รายงานวิเคราะห์ความเสี่ยง <br><span class="text-brand-orange">ไรเดอร์มืออาชีพ 2025</span></h1>
-                <p class="text-slate-400 max-w-3xl mx-auto text-lg leading-relaxed">
-                    ปี 2025 เป็นปีที่การขนส่งเติบโตสูงสุด แต่ก็มาพร้อมกับสถิติอุบัติเหตุที่น่ากังวล เราได้วิเคราะห์ 7 ปัจจัยหลักที่ส่งผลต่อชีวิตและทรัพย์สิน เพื่อให้คุณรู้วิธี "แก้ไข" และ "รับมือ" ได้อย่างมืออาชีพ
-                </p>
-            </header>
-
-            <section id="speed" class="mb-24">
-                <div class="glass-card rounded-3xl p-8 mb-8 border-l-4 border-brand-red">
-                    <h2 class="text-3xl font-bold mb-4 flex items-center"><span class="mr-3">🏎️</span> 1. ความเร็วในเขตชุมชนและทางอันตราย</h2>
-                    <p class="text-slate-300 mb-6">
-                        การขับเร็วในเขตชุมชนคือสาเหตุการเสียชีวิตอันดับ 1 ของไรเดอร์ในปี 2025 เนื่องจากความซับซ้อนของทางแยกและคนเดินเท้า การเพิ่มความเร็วเพียงเล็กน้อยในซอยแคบทำให้ "ระยะเบรก" เพิ่มขึ้นเป็นทวีคูณ
-                    </p>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                        <div><div class="chart-container"><canvas id="speedChart"></canvas></div></div>
-                        <div class="space-y-4">
-                            <div class="bg-slate-800/50 p-4 rounded-xl">
-                                <h3 class="text-brand-yellow font-bold mb-2">📊 สถิติ 2025:</h3>
-                                <p class="text-sm text-slate-400">อุบัติเหตุจากการขับเร็วเกินกำหนดในเขตชุมชนเพิ่มขึ้น 12% เมื่อเทียบกับปี 2024 โดย 70% ของเคสจบลงด้วยการบาดเจ็บสาหัส</p>
-                            </div>
-                            <div class="bg-emerald-900/20 p-4 rounded-xl border border-emerald-500/30">
-                                <h3 class="text-emerald-400 font-bold mb-2">✅ วิธีการแก้ไข:</h3>
-                                <ul class="text-xs text-slate-300 list-disc ml-5 space-y-1">
-                                    <li>ใช้ความเร็วไม่เกิน 30-40 กม./ชม. ในเขตชุมชน</li>
-                                    <li>แตะเบรกเผื่อไว้เสมอเมื่อเห็นทางแยกหรือจุดบอด</li>
-                                    <li>ไม่ฝ่าไฟเหลืองหรือเร่งเครื่องในทางแคบ</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="lane" class="mb-24">
-                <div class="glass-card rounded-3xl p-8 mb-8 border-l-4 border-brand-yellow">
-                    <h2 class="text-3xl font-bold mb-4 flex items-center"><span class="mr-3">🔄</span> 2. การเปลี่ยนเลนและเลี้ยวเข้าซอยกะทันหัน</h2>
-                    <p class="text-slate-300 mb-6">
-                        ความเร่งรีบทำให้ไรเดอร์หลายคนเลือก "เลี้ยวโดยไม่ให้สัญญาณ" หรือ "เปลี่ยนเลนแทรก" ซึ่งเป็นสาเหตุของอุบัติเหตุการเฉี่ยวชนด้านข้างที่พบบ่อยที่สุด
-                    </p>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                        <div class="order-2 lg:order-1 space-y-4">
-                            <div class="bg-slate-800/50 p-4 rounded-xl">
-                                <h3 class="text-brand-orange font-bold mb-2">📉 สถิติการสูญเสีย:</h3>
-                                <p class="text-sm text-slate-400">การเฉี่ยวชนจากการเปลี่ยนเลนกะทันหันคิดเป็น 35% ของอุบัติเหตุทั้งหมดบนถนนสายหลัก ทำให้รถเสียหายเฉลี่ยเคสละ 15,000 บาท</p>
-                            </div>
-                            <div class="bg-emerald-900/20 p-4 rounded-xl border border-emerald-500/30">
-                                <h3 class="text-emerald-400 font-bold mb-2">✅ วิธีการรับมือ:</h3>
-                                <ul class="text-xs text-slate-300 list-disc ml-5 space-y-1">
-                                    <li>เปิดไฟเลี้ยวก่อนเปลี่ยนเลนอย่างน้อย 30 เมตร</li>
-                                    <li>มองกระจกข้างและหันมองจุดบอด (Shoulder Check)</li>
-                                    <li>ไม่แซงซ้ายในจังหวะที่รถใหญ่กำลังเลี้ยว</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="order-1 lg:order-2"><div class="chart-container"><canvas id="laneChart"></canvas></div></div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="phone" class="mb-24 text-center">
-                <div class="glass-card rounded-3xl p-8 mb-8 border-t-4 border-brand-orange">
-                    <h2 class="text-3xl font-bold mb-4 flex justify-center items-center"><span class="mr-3">📱</span> 3. การเล่นโทรศัพท์ขณะขับขี่</h2>
-                    <p class="text-slate-300 mb-8 max-w-3xl mx-auto">
-                        ไรเดอร์กับสมาร์ทโฟนเป็นของคู่กัน แต่การ "ละสายตา" เพียง 2 วินาทีเพื่อดูแผนที่ในขณะขับขี่ด้วยความเร็ว 60 กม./ชม. หมายความว่าคุณขับรถแบบ "หลับตา" ไปไกลกว่า 33 เมตร
-                    </p>
-                    <div class="flex flex-col md:flex-row gap-12 items-center justify-center">
-                        <div class="chart-container md:w-1/2"><canvas id="phoneChart"></canvas></div>
-                        <div class="md:w-1/3 text-left bg-brand-red/10 p-6 rounded-2xl border border-brand-red/30">
-                            <h3 class="text-brand-red font-bold text-xl mb-3">⚠️ อันตรายแฝง:</h3>
-                            <p class="text-sm text-slate-300 leading-relaxed">
-                                การใช้มือถือลดความสามารถในการประมวลผลของสมองลง 37% เทียบเท่ากับความมึนเมาจากแอลกอฮอล์ในระดับที่กฎหมายกำหนด
-                            </p>
-                            <div class="mt-4 pt-4 border-t border-brand-red/20">
-                                <h4 class="text-emerald-400 font-bold text-sm mb-2">ทางออกที่ปลอดภัย:</h4>
-                                <p class="text-xs text-slate-400">ใช้ Bluetooth ติดหมวกและที่ยึดมือถือที่แข็งแรง หยุดรถในที่ปลอดภัยหากต้องเปลี่ยนเส้นทางหรือกดรับงานใหม่</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="fatigue" class="mb-24">
-                <div class="glass-card rounded-3xl p-8 mb-8 border-l-4 border-brand-yellow">
-                    <h2 class="text-3xl font-bold mb-4 flex items-center"><span class="mr-3">💤</span> 4. การพักผ่อนที่ไม่เพียงพอ</h2>
-                    <p class="text-slate-300 mb-6">
-                        การทำรอบงานมากเกินไปเพื่อรายได้ นำไปสู่สภาวะ "หลับใน" ซึ่งเป็นอันตรายอย่างยิ่งในช่วงเวลา 14:00 - 16:00 และหลังเที่ยงคืน
-                    </p>
-                    <div class="chart-container mb-8"><canvas id="fatigueChart"></canvas></div>
-                    <div class="bg-slate-800/80 p-6 rounded-2xl">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h3 class="text-brand-orange font-bold mb-2">📈 สถิติ 2025:</h3>
-                                <p class="text-xs text-slate-400">ไรเดอร์ที่มีชั่วโมงทำงานติดต่อกันเกิน 10 ชั่วโมง มีโอกาสเกิดอุบัติเหตุรุนแรงเพิ่มขึ้น 3 เท่า เมื่อเทียบกับผู้ที่พักผ่อนครบ 8 ชั่วโมง</p>
-                            </div>
-                            <div>
-                                <h3 class="text-emerald-400 font-bold mb-2">💡 การแก้ไข:</h3>
-                                <p class="text-xs text-slate-400">ตั้งเวลาพัก "Power Nap" 15-20 นาทีในช่วงบ่าย และต้องหยุดงานทันทีหากเริ่มมีอาการตาพร่าหรือหาวบ่อยครั้ง</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="external" class="mb-24">
-                <div class="glass-card rounded-3xl p-8 mb-8 border-l-4 border-blue-500">
-                    <h2 class="text-3xl font-bold mb-4 flex items-center"><span class="mr-3">⛈️</span> 5. ปัจจัยภายนอกและอากาศ</h2>
-                    <p class="text-slate-300 mb-6">
-                        สภาพอากาศแปรปรวนในปี 2025 และพฤติกรรมการขับขี่ของ "ผู้อื่น" คือปัจจัยที่เราควบคุมไม่ได้ แต่เรา "ป้องกัน" ได้ด้วยการคาดการณ์ล่วงหน้า
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="chart-container"><canvas id="externalChart"></canvas></div>
-                        <div class="space-y-4">
-                            <div class="bg-blue-900/20 p-5 rounded-2xl border border-blue-500/30">
-                                <h3 class="text-blue-400 font-bold mb-2">🛡️ การรับมือความประมาทของผู้อื่น:</h3>
-                                <p class="text-sm text-slate-300">ใช้เทคนิค "Defensive Riding" เสมอ โดยคิดล่วงหน้าว่ารถคันข้างหน้าอาจจะเบรก หรือคันข้างๆ อาจจะเปลี่ยนเลนโดยไม่เปิดไฟเลี้ยว</p>
-                            </div>
-                            <div class="bg-slate-800/50 p-5 rounded-2xl">
-                                <h3 class="text-brand-yellow font-bold mb-2">🌦️ สภาพอากาศ:</h3>
-                                <p class="text-sm text-slate-400">ฝนตกหนักคือจุดวิกฤต การขี่ลุยน้ำขังมีความเสี่ยง "เหินน้ำ" (Hydroplaning) สูงมาก ควรลดความเร็วลงอย่างน้อย 50%</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="helmet" class="mb-24">
-                <div class="glass-card rounded-3xl p-8 mb-8 border-l-4 border-brand-purple">
-                    <h2 class="text-3xl font-bold mb-4 flex items-center text-white"><span class="mr-3">🪖</span> 6. การไม่สวมหมวกกันน็อก</h2>
-                    <p class="text-slate-300 mb-6">
-                        การคิดว่า "ขี่ไปใกล้ๆ แค่นี้เอง" คือกับดักมรณะ แม้จะวิ่งงานระยะสั้นตามตรอกซอกซอยใน ชลบุรี ระยอง จันทบุรี หรือตราด การล้มโดยศีรษะกระแทกพื้นด้วยความเร็วเพียง 30 กม./ชม. ก็สามารถสร้างความเสียหายต่อสมองได้อย่างถาวร
-                    </p>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                        <div class="order-2 lg:order-1 space-y-4">
-                            <div class="bg-slate-800/50 p-4 rounded-xl">
-                                <h3 class="text-brand-purple font-bold mb-2">🧠 ผลกระทบโดยตรง:</h3>
-                                <p class="text-sm text-slate-400">มากกว่า 80% ของผู้เสียชีวิตจากรถจักรยานยนต์ เกิดจากการบาดเจ็บที่ศีรษะ หมวกกันน็อกแบบเต็มใบช่วยลดความรุนแรงได้ถึง 72%</p>
-                            </div>
-                            <div class="bg-purple-900/20 p-4 rounded-xl border border-purple-500/30">
-                                <h3 class="text-purple-400 font-bold mb-2">✅ กฎเหล็กของไรเดอร์:</h3>
-                                <ul class="text-xs text-slate-300 list-disc ml-5 space-y-1">
-                                    <li>สวมและล็อกสายรัดคางทุกครั้ง ไม่ว่าจะขี่ใกล้แค่ไหน</li>
-                                    <li>เลือกหมวกที่ได้มาตรฐาน มอก. หรือมาตรฐานสากล</li>
-                                    <li>เปลี่ยนหมวกกันน็อกใหม่ทุก 3-5 ปี หรือหลังเกิดการกระแทกหนัก</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="order-1 lg:order-2">
-                            <div class="chart-container"><canvas id="helmetChart"></canvas></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="drunk" class="mb-24">
-                <div class="glass-card rounded-3xl p-8 mb-8 border-l-4 border-brand-rose">
-                    <h2 class="text-3xl font-bold mb-4 flex items-center text-white"><span class="mr-3">🍻</span> 7. เมาแล้วขับ และแอลกอฮอล์ตกค้าง</h2>
-                    <p class="text-slate-300 mb-6">
-                        ในช่วงเทศกาลสำคัญอย่างสงกรานต์ สถิติอุบัติเหตุจากความเมาพุ่งสูงขึ้นหลายเท่าตัว แอลกอฮอล์ทำให้การตอบสนองช้าลง มุมมองสายตาแคบลง (Tunnel Vision) และทำให้ประเมินความเสี่ยงต่ำกว่าความเป็นจริง
-                    </p>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <div class="chart-container"><canvas id="drunkChart"></canvas></div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="bg-slate-800/50 p-4 rounded-xl">
-                                <h3 class="text-brand-rose font-bold mb-2">🩸 ระดับแอลกอฮอล์ (BAC):</h3>
-                                <p class="text-sm text-slate-400">เพียงแค่ดื่มเบียร์ 1-2 กระป๋อง ความสามารถในการแยกแยะวัตถุเคลื่อนที่เวลากลางคืนก็ลดลงแล้ว และความเสี่ยงอุบัติเหตุจะพุ่งสูงแบบทวีคูณเมื่อดื่มมากขึ้น</p>
-                            </div>
-                            <div class="bg-rose-900/20 p-4 rounded-xl border border-rose-500/30">
-                                <h3 class="text-rose-400 font-bold mb-2">✅ วิธีการรับมือช่วงเทศกาล:</h3>
-                                <ul class="text-xs text-slate-300 list-disc ml-5 space-y-1">
-                                    <li>"งดรับงานเด็ดขาด" หากมีปาร์ตี้หรือดื่มแอลกอฮอล์มา</li>
-                                    <li>ระวัง "อาการเมาค้าง" (Hangover) ในเช้าวันถัดไป ซึ่งอันตรายไม่แพ้กัน</li>
-                                    <li>ในช่วงเทศกาล ให้เพิ่มความระมัดระวังรถคันอื่นที่อาจเมาแล้วขับ โดยเฉพาะช่วงหลัง 22:00 น.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="mb-24">
-                <div class="bg-gradient-to-r from-brand-orange to-brand-red rounded-3xl p-1">
-                    <div class="bg-slate-900 rounded-[calc(1.5rem-4px)] p-8">
-                        <div class="flex flex-col lg:flex-row gap-8 items-center">
-                            <div class="lg:w-1/2">
-                                <div class="text-brand-orange text-xs font-bold uppercase tracking-widest mb-2">Safe Rider Companion</div>
-                                <h2 class="text-3xl font-bold mb-4">✨ ปรึกษาแผนความปลอดภัยส่วนตัว</h2>
-                                <p class="text-slate-400 mb-6">
-                                    ถาม AI เกี่ยวกับวิธีแก้ปัญหาเฉพาะหน้า เช่น "คืนนี้ต้องทำงานล่วงเวลาควรเตรียมตัวอย่างไร" หรือ "ต้องขี่รถในพื้นที่ก่อสร้างบ่อยๆ รับมือยังไงดี"
-                                </p>
-                                <div class="flex flex-wrap gap-2">
-                                    <button onclick="setPrompt('มีวิธีเตือนสติตัวเองให้ใส่หมวกกันน็อกตลอดไหม?')" class="bg-slate-800 hover:bg-slate-700 text-[10px] px-3 py-1 rounded-full text-slate-400 transition-all">#หมวกกันน็อก</button>
-                                    <button onclick="setPrompt('ช่วงสงกรานต์จะขี่รถส่งของให้ปลอดภัยจากคนเมายังไงดี?')" class="bg-slate-800 hover:bg-slate-700 text-[10px] px-3 py-1 rounded-full text-slate-400 transition-all">#ระวังคนเมา</button>
-                                </div>
-                            </div>
-                            <div class="lg:w-1/2 w-full">
-                                <textarea id="aiInput" rows="3" class="w-full bg-slate-800/50 border border-slate-700 rounded-2xl p-4 text-white focus:ring-2 focus:ring-brand-orange outline-none transition-all placeholder-slate-600 mb-4" placeholder="พิมพ์คำถามของคุณที่นี่..."></textarea>
-                                <button id="aiButton" onclick="analyzeSituation()" class="w-full bg-brand-orange hover:bg-brand-red text-white font-bold py-3 rounded-2xl transition-all shadow-lg active:scale-95">วิเคราะห์สถานการณ์</button>
-                                
-                                <div id="aiLoading" class="hidden mt-6 text-center">
-                                    <div class="inline-block w-6 h-6 border-2 border-brand-orange border-t-transparent rounded-full animate-spin"></div>
-                                    <p class="text-xs text-slate-500 mt-2">Gemini กำลังประเมินความเสี่ยง...</p>
-                                </div>
-                                <div id="aiResponse" class="hidden mt-6 bg-slate-800/30 border border-white/5 rounded-2xl p-5 text-sm leading-relaxed text-slate-300 shadow-inner overflow-auto max-h-60"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     </div>
 
+    <!-- ========================================== -->
+    <!-- PAGE 3: DOG CHASE SAFETY                   -->
+    <!-- ========================================== -->
+    <div id="page-dog" class="page-section hidden pt-10 pb-10">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-[#FACC15] tracking-widest uppercase mb-2">CHAPTER 03</h2>
+                <h3 class="text-3xl font-extrabold text-white">วิกฤตสุนัขวิ่งไล่กวด</h3>
+                <p class="text-slate-400 mt-2 max-w-2xl mx-auto">ความตระหนกน่ากลัวกว่าคมเขี้ยว</p>
+            </div>
 
-    <div id="page-dog" class="page-section pt-16 hidden">
-        <div class="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-            <header class="text-center mb-16 mt-8">
-                <div class="inline-block bg-amber-500 text-slate-900 px-4 py-1 rounded-full text-sm font-bold mb-4 tracking-wider">SAFETY GUIDE</div>
-                <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-amber-400">เอาตัวรอดจากสุนัขวิ่งไล่</h1>
-                <p class="text-xl text-slate-300 max-w-2xl mx-auto">คู่มือรับมือสถานการณ์ฉุกเฉินสำหรับผู้ขับขี่จักรยานยนต์ ลดความเสี่ยงอุบัติเหตุด้วยสติและเทคนิคที่ถูกต้อง</p>
-            </header>
-
-            <section class="mb-20">
-                <h2 class="text-3xl font-bold mb-6 text-amber-400 flex items-center justify-center md:justify-start">
-                    <span class="text-4xl mr-3">🚨</span> ภัยเงียบที่แท้จริง
-                </h2>
-                <p class="text-slate-300 mb-8 text-lg leading-relaxed text-center md:text-left">
-                    เมื่อถูกสุนัขวิ่งไล่ สิ่งที่น่ากลัวที่สุดไม่ใช่คมเขี้ยวของสุนัข แต่คือ "ความตระหนก" ของผู้ขับขี่เอง การตกใจจนควบคุมรถไม่ได้นำไปสู่อุบัติเหตุร้ายแรง แผนภูมินี้แสดงให้เห็นว่าอาการบาดเจ็บส่วนใหญ่เกิดจากการล้มเอง มากกว่าการถูกกัดโดยตรง
-                </p>
-                <div class="bg-slate-800 rounded-2xl p-6 shadow-xl border border-slate-700">
-                    <div class="chart-container dog-chart">
-                        <canvas id="dangerChart"></canvas>
-                    </div>
-                    <p class="text-center text-sm text-slate-400 mt-6">ข้อมูลอ้างอิงเชิงสถิติ: สาเหตุการบาดเจ็บหลักเมื่อเผชิญหน้าสุนัขไล่กวด</p>
+            <!-- Stats -->
+            <div class="glass-card rounded-3xl p-8 mb-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-l-4 border-[#F59E0B]">
+                <div class="chart-container"><canvas id="dogDangerChart"></canvas></div>
+                <div>
+                    <h3 class="text-2xl font-bold text-[#FACC15] mb-4">ตกใจจนรถล้ม เจ็บกว่าโดนกัด!</h3>
+                    <p class="text-slate-300 text-sm">แผนภูมิชี้ชัดว่า อุบัติเหตุที่เกิดจากการหักหลบกะทันหัน หรือเสียหลักเพราะยกเท้าเตะสุนัข สร้างความเสียหายรุนแรงกว่าการถูกกัดโดยตรงถึง 5 เท่า</p>
                 </div>
-            </section>
+            </div>
 
-            <section class="mb-20">
-                <h2 class="text-3xl font-bold mb-6 text-emerald-400 flex items-center justify-center md:justify-start">
-                    <span class="text-4xl mr-3">🚦</span> เทคนิค "ชะลอแล้วเร่ง" (Slow Down and Go)
-                </h2>
-                <p class="text-slate-300 mb-8 text-lg leading-relaxed text-center md:text-left">
-                    สุนัขใช้สัญชาตญาณนักล่าในการกะระยะเพื่อดักหน้าเรา ยิ่งเราขี่เร็ว มันจะยิ่งวิ่งเร็วขึ้น เทคนิคที่ดีที่สุดคือการทำลายจังหวะการคำนวณของมันด้วย 3 ขั้นตอนง่ายๆ
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="glass-card rounded-2xl p-8 text-center transition-transform hover:-translate-y-2">
-                        <div class="text-6xl mb-4">👁️</div>
-                        <h3 class="text-xl font-bold mb-3 text-white">1. มองตรงไปข้างหน้า</h3>
-                        <p class="text-slate-300 text-sm">ตั้งสติ ห้ามมองตาหรือจ้องสุนัขเด็ดขาด เพราะสุนัขจะถือว่าเป็นการท้าทาย ควบคุมแฮนด์รถให้มั่นคง</p>
-                    </div>
-                    <div class="glass-card rounded-2xl p-8 text-center transition-transform hover:-translate-y-2 border-t-4 border-amber-500">
-                        <div class="text-6xl mb-4">🛑</div>
-                        <h3 class="text-xl font-bold mb-3 text-amber-400">2. ผ่อนคันเร่ง แตะเบรก</h3>
-                        <p class="text-slate-300 text-sm">เมื่อเห็นสุนัขพุ่งมา ให้ลดความเร็วลงเล็กน้อย สุนัขจะงงและเสียจังหวะการกะระยะดักหน้าทันที</p>
-                    </div>
-                    <div class="glass-card rounded-2xl p-8 text-center transition-transform hover:-translate-y-2 border-t-4 border-emerald-500">
-                        <div class="text-6xl mb-4">🏍️</div>
-                        <h3 class="text-xl font-bold mb-3 text-emerald-400">3. บิดคันเร่งหนี</h3>
-                        <p class="text-slate-300 text-sm">เมื่อสุนัขชะลอความเร็วตามรถเรา ให้บิดคันเร่งพุ่งออกไปทันที สุนัขจะกลับตัวมาไล่ตามไม่ทันแน่นอน</p>
-                    </div>
+            <!-- The 3 Steps -->
+            <h3 class="text-2xl font-bold text-center text-[#10B981] mb-8">เทคนิค "ชะลอให้เสียจังหวะ แล้วบิดหนี"</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-slate-800 rounded-2xl p-8 text-center border-t-4 border-slate-600">
+                    <div class="text-5xl mb-4">👁️</div>
+                    <h3 class="text-lg font-bold mb-2 text-white">1. มองทางตรง</h3>
+                    <p class="text-slate-400 text-sm">ห้ามมองตาสุนัข จับแฮนด์ให้มั่นคง</p>
                 </div>
-            </section>
+                <div class="bg-slate-800 rounded-2xl p-8 text-center border-t-4 border-[#F59E0B]">
+                    <div class="text-5xl mb-4">🛑</div>
+                    <h3 class="text-lg font-bold mb-2 text-[#FACC15]">2. ผ่อนคันเร่ง แตะเบรก</h3>
+                    <p class="text-slate-400 text-sm">ลดความเร็วให้สุนัขคำนวณระยะดักหน้าพลาด</p>
+                </div>
+                <div class="bg-slate-800 rounded-2xl p-8 text-center border-t-4 border-[#10B981]">
+                    <div class="text-5xl mb-4">🏍️</div>
+                    <h3 class="text-lg font-bold mb-2 text-[#10B981]">3. บิดหนี</h3>
+                    <p class="text-slate-400 text-sm">เมื่อสุนัขชะลอตาม ให้พุ่งหนีทันที</p>
+                </div>
+            </div>
 
-            <section class="mb-20">
-                <h2 class="text-3xl font-bold mb-6 text-white flex items-center justify-center md:justify-start">
-                    <span class="text-4xl mr-3">📊</span> เปรียบเทียบวิธีรับมือ
-                </h2>
-                <p class="text-slate-300 mb-8 text-lg leading-relaxed text-center md:text-left">
-                    การตอบสนองแบบผิดๆ เช่น การพยายามใช้เท้าเตะ หรือการหักหลบอย่างรุนแรง เพิ่มโอกาสในการเกิดอุบัติเหตุสูงมาก กราฟด้านล่างเปรียบเทียบระดับความปลอดภัยและความเสี่ยงรถล้มของแต่ละพฤติกรรม
-                </p>
-                <div class="bg-slate-800 rounded-2xl p-6 shadow-xl border border-slate-700">
-                    <div class="chart-container md:max-w-4xl dog-chart">
-                        <canvas id="reactionChart"></canvas>
-                    </div>
+            <!-- Reaction Chart -->
+            <div class="glass-card rounded-3xl p-8">
+                <h3 class="text-center font-bold mb-6">วิเคราะห์ความเสี่ยงจากพฤติกรรมตอบสนอง</h3>
+                <div class="chart-container"><canvas id="dogReactionChart"></canvas></div>
+                <div class="mt-6 flex justify-center space-x-6">
+                    <div class="text-sm flex items-center"><span class="text-2xl mr-2">❌</span> <span class="text-slate-300">ห้ามยกเท้าเตะ (รถจะคว่ำ)</span></div>
+                    <div class="text-sm flex items-center"><span class="text-2xl mr-2">🦵</span> <span class="text-slate-300">ให้หนีบขากับตัวรถแทน</span></div>
                 </div>
-            </section>
-
-            <section class="mb-12">
-                <h2 class="text-3xl font-bold mb-6 text-amber-400 flex items-center justify-center md:justify-start">
-                    <span class="text-4xl mr-3">🛡️</span> ท่าทาง และ ข้อควรระวังพิเศษ
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-slate-800 rounded-xl p-6 border-l-4 border-emerald-500 flex items-start">
-                        <div class="text-4xl mr-4 mt-1">🦵</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white mb-2">ยกขาขึ้น เลี่ยงการโดนงับ</h3>
-                            <p class="text-slate-300 text-sm">หากสุนัขเข้ามาประชิด ให้ยกขาฝั่งที่สุนัขไล่แนบขึ้นมาข้างตัวรถ เพื่อป้องกันการโดนกัดบริเวณน่องหรือข้อเท้า</p>
-                        </div>
-                    </div>
-                    <div class="bg-slate-800 rounded-xl p-6 border-l-4 border-red-500 flex items-start">
-                        <div class="text-4xl mr-4 mt-1">❌</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-red-400 mb-2">ห้ามเตะเด็ดขาด</h3>
-                            <p class="text-slate-300 text-sm">การพยายามเตะขณะรถกำลังวิ่ง จะทำให้ร่างกายเสียสมดุลอย่างรุนแรง เป็นสาเหตุอันดับหนึ่งที่ทำให้รถล้ม</p>
-                        </div>
-                    </div>
-                    <div class="bg-slate-800 rounded-xl p-6 border-l-4 border-amber-500 flex items-start">
-                        <div class="text-4xl mr-4 mt-1">🔊</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white mb-2">ใช้เสียงเข้าช่วย</h3>
-                            <p class="text-slate-300 text-sm">หากจำเป็น การบีบแตรเสียงยาวๆ หรือการตวาดด้วยเสียงดังเข้ม สามารถทำให้สุนัขตกใจและชะงักไปชั่วขณะได้</p>
-                        </div>
-                    </div>
-                    <div class="bg-slate-800 rounded-xl p-6 border-l-4 border-emerald-500 flex items-start">
-                        <div class="text-4xl mr-4 mt-1">🪖</div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white mb-2">สวมหมวกกันน็อกเสมอ</h3>
-                            <p class="text-slate-300 text-sm">อุปกรณ์ป้องกันคือสิ่งสำคัญที่สุด เพราะอุบัติเหตุล้มเองจากความตกใจ เกิดขึ้นได้เสมอแม้วิธีรับมือจะดีแค่ไหนก็ตาม</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer class="mt-16 border-t border-slate-700 pt-8 pb-12 text-center">
-                <div class="inline-block bg-slate-800 rounded-2xl p-6 border border-amber-500/30">
-                    <p class="text-slate-400 text-sm mb-2">คาถาเอาตัวรอด จำให้ขึ้นใจ</p>
-                    <p class="text-2xl md:text-3xl font-bold text-amber-400">"ชะลอให้เสียจังหวะ แล้วบิดหนีให้เสียหมา"</p>
-                </div>
-            </footer>
+            </div>
         </div>
     </div>
 
-    <footer class="text-center border-t border-white/10 pt-8 pb-8 bg-slate-900">
-        <p class="text-slate-500 text-sm mb-2">"เงินสำคัญ แต่ชีวิตสำคัญกว่า ส่งช้าหน่อยไม่เป็นไร แต่ต้องส่งให้ถึงปลายทางอย่างปลอดภัย"</p>
-        <p class="text-brand-orange font-bold text-xs uppercase tracking-widest">© 2025 Rider Safety Alliance</p>
+    <!-- Footer -->
+    <footer class="text-center border-t border-white/10 pt-10 pb-16 bg-slate-900 mt-10">
+        <p class="text-slate-500 text-sm mb-2">"สติพร้อม รถพร้อม ชุดพร้อม... เดินทางปลอดภัย"</p>
+        <p class="text-[#F97316] font-bold text-xs uppercase tracking-widest">© 2026 RIDER SAFETY ALLIANCE</p>
     </footer>
 
+    <!-- JAVASCRIPT: Page Switching & Charts -->
     <script>
+        // Utility: Wrap labels
         const wrapLabel = (str, limit = 16) => {
             if (str.length <= limit) return [str];
             const words = str.split(' ');
             const result = [];
             let current = "";
             words.forEach(w => {
-                if ((current + w).length > limit) {
-                    result.push(current.trim());
-                    current = w + " ";
-                } else {
-                    current += w + " ";
-                }
+                if ((current + w).length > limit) { result.push(current.trim()); current = w + " "; } 
+                else { current += w + " "; }
             });
             if (current) result.push(current.trim());
             return result;
@@ -446,206 +364,210 @@
 
         const standardTooltip = {
             callbacks: {
-                title: function(tooltipItems) {
-                    const item = tooltipItems[0];
-                    let label = item.chart.data.labels[item.dataIndex];
+                title: function(items) {
+                    let label = items[0].chart.data.labels[items[0].dataIndex];
                     return Array.isArray(label) ? label.join(' ') : label;
                 }
-            }
+            },
+            padding: 12,
+            titleFont: { size: 14, family: 'Kanit' },
+            bodyFont: { size: 13, family: 'Kanit' },
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1
         };
 
+        // สถานะโหลดกราฟ
         let riderChartsLoaded = false;
+        let seasonChartsLoaded = false;
         let dogChartsLoaded = false;
 
+        // ระบบเปลี่ยนหน้าต่าง (Tab Switching)
+        function switchPage(pageId) {
+            // ซ่อนทุกหน้า
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            // แสดงหน้าเป้าหมาย
+            document.getElementById(pageId).classList.remove('hidden');
+            document.getElementById(pageId).classList.add('block');
+
+            // เปลี่ยนสีปุ่มให้กลับเป็นโหมด Inactive
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-[#F97316]', 'text-white', 'shadow-[0_0_15px_rgba(249,115,22,0.4)]');
+                el.classList.add('bg-[#1E293B]', 'text-slate-300');
+            });
+            
+            // ทำให้ปุ่มที่เลือกเป็นโหมด Active สีส้ม
+            const activeTab = document.getElementById('tab-' + pageId);
+            activeTab.classList.remove('bg-[#1E293B]', 'text-slate-300');
+            activeTab.classList.add('bg-[#F97316]', 'text-white', 'shadow-[0_0_15px_rgba(249,115,22,0.4)]');
+
+            // จัดการการแสดงผลของเมนูย่อย (Sub-nav)
+            const subNav = document.getElementById('sub-nav-rider');
+            if (pageId === 'page-rider') {
+                subNav.style.display = 'flex';
+                if (!riderChartsLoaded) setTimeout(loadRiderCharts, 100);
+            } else {
+                subNav.style.display = 'none';
+            }
+
+            // โหลดกราฟของแต่ละหน้าเมื่อถูกเปิดขึ้นมา (เพื่อป้องกันบักกราฟเบี้ยว)
+            if (pageId === 'page-seasons' && !seasonChartsLoaded) setTimeout(loadSeasonCharts, 100);
+            if (pageId === 'page-dog' && !dogChartsLoaded) setTimeout(loadDogCharts, 100);
+            
+            window.scrollTo(0, 0);
+        }
+
+        // ฟังก์ชันวาดกราฟแต่ละหมวดหมู่
         function loadRiderCharts() {
             if (riderChartsLoaded) return;
             
-            // 1. Speed Chart
-            new Chart(document.getElementById('speedChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['40 กม./ชม.', '50 กม./ชม.', '60 กม./ชม.', '70 กม./ชม.', '80+ กม./ชม.'].map(l => wrapLabel(l)),
-                    datasets: [{ label: 'โอกาสเสียชีวิตเมื่อเกิดอุบัติเหตุ (%)', data: [5, 15, 45, 80, 98], backgroundColor: '#EF4444', borderRadius: 10 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: standardTooltip }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } }, x: { ticks: { color: '#F8FAFC' }, grid: { display: false } } } }
+            new Chart(document.getElementById('speedChart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: ['40 กม./ชม.', '50 กม./ชม.', '60 กม./ชม.', '70 กม./ชม.', '80+ กม./ชม.'].map(l => wrapLabel(l)), 
+                    datasets: [{ 
+                        label: 'โอกาสเสียชีวิต (%)', 
+                        data: [5, 15, 45, 80, 98], 
+                        backgroundColor: ['#FBBF24', '#F97316', '#EF4444', '#DC2626', '#991B1B'], 
+                        borderRadius: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)'
+                    }] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 20 } }, plugins: { legend: { display: false }, tooltip: standardTooltip }, scales: { y: { beginAtZero: true, ticks: { font: { size: 12 } } }, x: { ticks: { font: { size: 13, weight: 'bold' }, color: '#F8FAFC' }, grid: { display: false } } } } 
             });
-
-            // 2. Lane Chart
-            new Chart(document.getElementById('laneChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['การเฉี่ยวชน', 'รถล้มเอง', 'ชนท้าย'].map(l => wrapLabel(l)),
+            
+            new Chart(document.getElementById('laneChart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: ['การเฉี่ยวชน', 'รถล้มเอง', 'ชนท้าย'].map(l => wrapLabel(l)), 
                     datasets: [
-                        { label: 'ให้สัญญาณไฟ', data: [15, 10, 12], backgroundColor: '#10B981' },
-                        { label: 'ไม่ให้สัญญาณไฟ', data: [85, 40, 65], backgroundColor: '#F97316' }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, ticks: { color: '#F8FAFC' } }, y: { stacked: true, ticks: { color: '#94A3B8' } } }, plugins: { tooltip: standardTooltip, legend: { labels: { color: '#F8FAFC' } } } }
+                        { label: 'ให้สัญญาณไฟ', data: [15, 10, 12], backgroundColor: '#10B981', borderRadius: 4 }, 
+                        { label: 'ไม่ให้สัญญาณไฟ', data: [85, 40, 65], backgroundColor: '#FACC15', borderRadius: 4 }
+                    ] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { font: { size: 13 } } }, y: { ticks: { font: { size: 12 } } } }, plugins: { tooltip: standardTooltip, legend: { position: 'top', labels: { padding: 20, font: { size: 14 } } } } } 
             });
-
-            // 3. Phone Chart
-            new Chart(document.getElementById('phoneChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['เวลาปฏิกิริยาปกติ', 'เสียเวลาดูโทรศัพท์', 'สมองประมวลผลช้าลง'].map(l => wrapLabel(l)),
-                    datasets: [{ data: [20, 45, 35], backgroundColor: ['#10B981', '#F97316', '#EF4444'], borderWidth: 0, hoverOffset: 15 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: standardTooltip, legend: { position: 'bottom', labels: { color: '#F8FAFC' } } } }
+            
+            new Chart(document.getElementById('phoneChart'), { 
+                type: 'doughnut', 
+                data: { 
+                    labels: ['ปฏิกิริยาปกติ', 'เสียเวลาดูโทรศัพท์', 'สมองประมวลผลช้าลง'].map(l => wrapLabel(l)), 
+                    datasets: [{ data: [20, 45, 35], backgroundColor: ['#10B981', '#F97316', '#EF4444'], borderWidth: 2, borderColor: '#0F172A', hoverOffset: 15 }] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: 10 }, plugins: { tooltip: standardTooltip, legend: { position: 'right', labels: { padding: 15, font: { size: 14 } } } } } 
             });
-
-            // 4. Fatigue Chart
-            new Chart(document.getElementById('fatigueChart'), {
-                type: 'line',
-                data: {
-                    labels: ['ชั่วโมง 2', 'ชั่วโมง 4', 'ชั่วโมง 6', 'ชั่วโมง 8', 'ชั่วโมง 10', 'ชั่วโมง 12'],
-                    datasets: [{ label: 'ความเสี่ยงอุบัติเหตุ (ทวีคูณ)', data: [1, 1.2, 1.8, 3.5, 7.2, 15], borderColor: '#FACC15', backgroundColor: 'rgba(250, 204, 21, 0.1)', fill: true, tension: 0.4 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: standardTooltip, legend: { labels: { color: '#F8FAFC' } } }, scales: { y: { ticks: { color: '#94A3B8' } }, x: { ticks: { color: '#F8FAFC' } } } }
+            
+            new Chart(document.getElementById('fatigueChart'), { 
+                type: 'line', 
+                data: { 
+                    labels: ['ชั่วโมง 2', 'ชั่วโมง 4', 'ชั่วโมง 6', 'ชั่วโมง 8', 'ชั่วโมง 10', 'ชั่วโมง 12'], 
+                    datasets: [{ label: 'ความเสี่ยง (ทวีคูณ)', data: [1, 1.2, 1.8, 3.5, 7.2, 15], borderColor: '#FACC15', backgroundColor: 'rgba(250, 204, 21, 0.15)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 6, pointBackgroundColor: '#FACC15', pointBorderColor: '#fff', pointBorderWidth: 2 }] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 20, right: 10 } }, plugins: { tooltip: standardTooltip, legend: { display:false } }, scales: { y: { display: false }, x: { ticks: { color: '#e2e8f0', font: { size: 12, weight: 'bold' } }, grid: { display: false } } } } 
             });
-
-            // 5. External Chart
-            new Chart(document.getElementById('externalChart'), {
-                type: 'bubble',
-                data: {
+            
+            new Chart(document.getElementById('externalChart'), { 
+                type: 'bubble', 
+                data: { 
                     datasets: [
-                        { label: 'ฝนตกถนนลื่น', data: [{ x: 80, y: 70, r: 25 }], backgroundColor: 'rgba(59, 130, 246, 0.6)' },
-                        { label: 'เขตก่อสร้าง', data: [{ x: 40, y: 40, r: 15 }], backgroundColor: 'rgba(249, 115, 22, 0.6)' },
-                        { label: 'รถอื่นประมาท', data: [{ x: 90, y: 85, r: 20 }], backgroundColor: 'rgba(239, 68, 68, 0.6)' }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'ความถี่ (Frequency)', color: '#94A3B8' }, ticks: { display: false } }, y: { title: { display: true, text: 'ความรุนแรง (Severity)', color: '#94A3B8' }, ticks: { display: false } } }, plugins: { legend: { labels: { color: '#F8FAFC' } }, tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ความเสี่ยงสูงมาก` } } } }
+                        { label: 'ทรายบนถนน', data: [{ x: 80, y: 70, r: 20 }], backgroundColor: 'rgba(59, 130, 246, 0.8)', borderColor: '#60A5FA', borderWidth: 2 }, 
+                        { label: 'เขตก่อสร้าง', data: [{ x: 40, y: 40, r: 15 }], backgroundColor: 'rgba(139, 92, 246, 0.8)', borderColor: '#A78BFA', borderWidth: 2 }, 
+                        { label: 'รถอื่นประมาท', data: [{ x: 90, y: 85, r: 25 }], backgroundColor: 'rgba(236, 72, 153, 0.8)', borderColor: '#F472B6', borderWidth: 2 }
+                    ] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: 10 }, scales: { x: { title: { display: true, text: 'ความถี่', color: '#94A3B8', font: { size: 14 } }, ticks: { display: false } }, y: { title: { display: true, text: 'ความรุนแรง', color: '#94A3B8', font: { size: 14 } }, ticks: { display: false } } }, plugins: { legend: { labels: { color: '#F8FAFC', font: { size: 13 } }, position: 'top' }, tooltip: standardTooltip } } 
             });
-
-            // 6. Helmet Chart (NEW)
-            new Chart(document.getElementById('helmetChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['ล้มที่ 30 กม./ชม.', 'ล้มที่ 50 กม./ชม.', 'ล้มที่ 70 กม./ชม.'].map(l => wrapLabel(l)),
+            
+            new Chart(document.getElementById('helmetChart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: ['ล้ม 30 กม./ชม.', 'ล้ม 50 กม./ชม.', 'ล้ม 70 กม./ชม.'].map(l => wrapLabel(l)), 
                     datasets: [
-                        { label: 'ไม่สวมหมวก (โอกาสบาดเจ็บสาหัส/เสียชีวิต %)', data: [40, 75, 95], backgroundColor: '#EF4444', borderRadius: 6 },
-                        { label: 'สวมหมวกเต็มใบ (โอกาสบาดเจ็บสาหัส/เสียชีวิต %)', data: [5, 15, 40], backgroundColor: '#A855F7', borderRadius: 6 }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: standardTooltip, legend: { labels: { color: '#F8FAFC' }, position: 'bottom' } }, scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } }, x: { ticks: { color: '#F8FAFC' }, grid: { display: false } } } }
+                        { label: 'ไม่สวมหมวก (บาดเจ็บสาหัส %)', data: [40, 75, 95], backgroundColor: '#EF4444', borderRadius: 6 }, 
+                        { label: 'สวมหมวกเต็มใบ', data: [5, 15, 40], backgroundColor: '#A855F7', borderRadius: 6 }
+                    ] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: standardTooltip, legend: { labels: { color: '#F8FAFC', font: { size: 14 } }, position: 'top' } }, scales: { y: { beginAtZero: true, max: 100, ticks: { font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#F8FAFC', font: { size: 13, weight: 'bold' } } } } } 
             });
-
-            // 7. Drunk Chart (NEW)
-            new Chart(document.getElementById('drunkChart'), {
-                type: 'line',
-                data: {
-                    labels: ['1-2 แก้ว (BAC 0.02)', '3-4 แก้ว (BAC 0.05)', 'เมาจัด (BAC 0.08+)'].map(l => wrapLabel(l)),
-                    datasets: [{ label: 'ระดับความเสี่ยงอุบัติเหตุ (ทวีคูณ)', data: [1.5, 3.0, 10.0], borderColor: '#F43F5E', backgroundColor: 'rgba(244, 63, 94, 0.2)', fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: '#F43F5E' }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { tooltip: standardTooltip, legend: { labels: { color: '#F8FAFC' } } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94A3B8' } }, x: { ticks: { color: '#F8FAFC' } } } }
+            
+            new Chart(document.getElementById('drunkChart'), { 
+                type: 'line', 
+                data: { 
+                    labels: ['1-2 แก้ว', '3-4 แก้ว', 'เมาจัด'].map(l => wrapLabel(l)), 
+                    datasets: [{ label: 'ระดับความเสี่ยงอุบัติเหตุ', data: [1.5, 3.0, 10.0], borderColor: '#F43F5E', backgroundColor: 'rgba(244, 63, 94, 0.2)', fill: true, tension: 0.3, borderWidth: 3, pointRadius: 8, pointBackgroundColor: '#F43F5E', pointBorderColor: '#fff', pointBorderWidth: 2 }] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 20, right: 20 } }, plugins: { tooltip: standardTooltip, legend: { display: false } }, scales: { y: { ticks: { font: { size: 12 } } }, x: { ticks: { color: '#F8FAFC', font: { size: 14, weight: 'bold' } }, grid: { display: false } } } } 
             });
             
             riderChartsLoaded = true;
         }
 
+        function loadSeasonCharts() {
+            if (seasonChartsLoaded) return;
+
+            new Chart(document.getElementById('diseaseBarChart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: wrapLabel("อาหารพิษ,ไข้หวัดใหญ่,ไวรัสระบาด,ฮีทสโตรก".split(',')), 
+                    datasets: [ 
+                        { label: 'ร้อน', data: [90, 40, 30, 95], backgroundColor: '#FF2E63', borderRadius: 4 }, 
+                        { label: 'ฝน', data: [60, 50, 95, 15], backgroundColor: '#08D9D6', borderRadius: 4 }, 
+                        { label: 'หนาว', data: [20, 95, 40, 5], backgroundColor: '#EAEAEA', borderRadius: 4 } 
+                    ] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels: { color: '#EAEAEA', font: { family: 'Kanit', size: 14 } } }, tooltip: standardTooltip }, scales: { x: { ticks: { color: '#cbd5e1', font: { size: 13 } }, grid: { display: false } }, y: { ticks: { color: '#94A3B8' } } } } 
+            });
+            
+            new Chart(document.getElementById('accidentRadarChart'), { 
+                type: 'radar', 
+                data: { 
+                    labels: wrapLabel("ถนนลื่น,ทัศนวิสัยต่ำ,ยางระเบิด,หลับใน,เมาขับ".split(',')), 
+                    datasets: [{ label: 'ความเสี่ยง', data: [95, 85, 90, 75, 95], backgroundColor: 'rgba(8, 217, 214, 0.3)', borderColor: '#08D9D6', borderWidth: 2, pointBackgroundColor: '#08D9D6', pointRadius: 5 }] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: 15 }, plugins: { legend: { display: false }, tooltip: standardTooltip }, scales: { r: { angleLines: { color: 'rgba(255,255,255,0.2)' }, grid: { color: 'rgba(255,255,255,0.1)' }, pointLabels: { color: '#e2e8f0', font: { family: 'Kanit', size: 14, weight: 'bold' } }, ticks: { display: false } } } } 
+            });
+
+            seasonChartsLoaded = true;
+        }
+
         function loadDogCharts() {
             if (dogChartsLoaded) return;
-
-            const dangerLabels = ["อุบัติเหตุ รถล้ม เพราะตกใจ หักหลบ", "บาดเจ็บ จากการ โดน สุนัข กัด"].map(l => wrapLabel(l, 16));
-            new Chart(document.getElementById('dangerChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: dangerLabels,
-                    datasets: [{ data: [85, 15], backgroundColor: ['#F59E0B', '#EF4444'], borderWidth: 0, hoverOffset: 4 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#F8FAFC', font: { family: 'Kanit' } } }, tooltip: standardTooltip }, cutout: '70%' }
+            
+            new Chart(document.getElementById('dogDangerChart'), { 
+                type: 'doughnut', 
+                data: { 
+                    labels: ["อุบัติเหตุรถล้มเพราะตกใจหักหลบ", "บาดเจ็บจากการโดนสุนัขกัด"].map(l => wrapLabel(l, 16)), 
+                    datasets: [{ data: [85, 15], backgroundColor: ['#F59E0B', '#EF4444'], borderWidth: 2, borderColor: '#0F172A', hoverOffset: 12 }] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: 10 }, plugins: { legend: { position: 'bottom', labels: { color: '#F8FAFC', font: { family: 'Kanit', size: 14 }, padding: 20 } }, tooltip: standardTooltip }, cutout: '70%' } 
             });
-
-            const reactionLabels = ["ชะลอรถ แล้ว เร่ง เครื่อง หนี", "บีบแตร ยาว เพื่อ กดดัน", "หักหลบ ทิศทาง กะทันหัน", "ยกเท้า พยายาม เตะ สุนัข"].map(l => wrapLabel(l, 16));
-            new Chart(document.getElementById('reactionChart'), {
-                type: 'bar',
-                data: {
-                    labels: reactionLabels,
-                    datasets: [
-                        { label: 'ความปลอดภัย (Safety)', data: [95, 60, 20, 10], backgroundColor: '#10B981', borderRadius: 4 },
-                        { label: 'ความเสี่ยงรถล้ม (Fall Risk)', data: [5, 30, 80, 95], backgroundColor: '#EF4444', borderRadius: 4 }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255, 255, 255, 0.1)' }, ticks: { color: '#94A3B8', font: { family: 'Kanit' } } }, x: { grid: { display: false }, ticks: { color: '#E2E8F0', font: { family: 'Kanit' } } } }, plugins: { legend: { labels: { color: '#F8FAFC', font: { family: 'Kanit' } } }, tooltip: standardTooltip } }
+            
+            new Chart(document.getElementById('dogReactionChart'), { 
+                type: 'bar', 
+                data: { 
+                    labels: ["ชะลอแล้วเร่งหนี", "บีบแตรกดดัน", "หักหลบกะทันหัน", "ยกเท้าเตะสุนัข"].map(l => wrapLabel(l, 16)), 
+                    datasets: [ 
+                        { label: 'ความปลอดภัย', data: [95, 60, 20, 10], backgroundColor: '#10B981', borderRadius: 4 }, 
+                        { label: 'ความเสี่ยงรถล้ม', data: [5, 30, 80, 95], backgroundColor: '#EF4444', borderRadius: 4 } 
+                    ] 
+                }, 
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { max: 100, ticks: { font: { size: 12 } } }, x: { grid: { display: false }, ticks: { color: '#E2E8F0', font: { size: 13, weight: 'bold' } } } }, plugins: { legend: { position: 'top', labels: { color: '#F8FAFC', font: { size: 14 }, padding: 15 } }, tooltip: standardTooltip } } 
             });
-
+            
             dogChartsLoaded = true;
         }
 
-        function switchPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(el => {
-                el.classList.add('hidden');
-                el.classList.remove('block');
-            });
-            
-            document.getElementById(pageId).classList.remove('hidden');
-            document.getElementById(pageId).classList.add('block');
-
-            document.querySelectorAll('.tab-btn').forEach(el => {
-                el.classList.remove('active');
-                el.classList.add('inactive');
-            });
-            document.getElementById('tab-' + pageId).classList.remove('inactive');
-            document.getElementById('tab-' + pageId).classList.add('active');
-
-            if (pageId === 'page-rider') {
-                loadRiderCharts();
-            } else if (pageId === 'page-dog') {
-                setTimeout(loadDogCharts, 50); 
-            }
-            
-            window.scrollTo(0, 0);
-        }
-
+        // โหลดตั้งค่าฟอนต์และสีเริ่มต้นของกราฟทั้งหมดก่อน
         window.onload = function() {
-            loadRiderCharts();
+            Chart.defaults.font.family = 'Kanit';
+            Chart.defaults.color = '#cbd5e1'; 
+            Chart.defaults.scale.grid.color = 'rgba(255, 255, 255, 0.05)';
+            
+            // บังคับเปิดหน้า "7 ปัจจัยเสี่ยง" เป็นหน้าแรก
+            switchPage('page-rider');
         };
-
-        const apiKey = ""; // ใส่ API Key 
-        const model = "gemini-2.5-flash-preview-09-2025";
-        
-        const aiInput = document.getElementById('aiInput');
-        const aiButton = document.getElementById('aiButton');
-        const aiResponse = document.getElementById('aiResponse');
-        const aiLoading = document.getElementById('aiLoading');
-
-        function setPrompt(text) {
-            aiInput.value = text;
-        }
-
-        async function analyzeSituation() {
-            const prompt = aiInput.value.trim();
-            if (!prompt) return;
-
-            aiButton.disabled = true;
-            aiLoading.classList.remove('hidden');
-            aiResponse.classList.add('hidden');
-
-            const systemPrompt = "คุณคือ AI ผู้เชี่ยวชาญด้านความปลอดภัยและการบริหารความเสี่ยงสำหรับไรเดอร์มืออาชีพ หน้าที่ของคุณคือให้คำแนะนำเชิงรุก (Proactive Advice) สำหรับสถานการณ์เสี่ยงต่างๆ ให้ใช้ภาษาไทยที่กระชับ เป็นกันเอง และชัดเจน (Actionable steps)";
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
-
-                if (!response.ok) throw new Error("API Connection Failed");
-                const result = await response.json();
-                const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "ขออภัยครับ ไม่สามารถสร้างคำแนะนำได้ในขณะนี้";
-
-                aiResponse.innerText = text;
-                aiResponse.classList.remove('hidden');
-            } catch (err) {
-                aiResponse.innerText = "เกิดข้อผิดพลาดในการเชื่อมต่อโปรดลองตรวจสอบ API Key อีกครั้ง";
-                aiResponse.classList.remove('hidden');
-            } finally {
-                aiLoading.classList.add('hidden');
-                aiButton.disabled = false;
-            }
-        }
     </script>
 </body>
 </html>
